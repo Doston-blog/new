@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           type="Person"
           name={siteMetadata.author}
           url={siteMetadata.siteUrl}
-          sameAs={[siteMetadata.facebook, siteMetadata.linkedin]}
+          sameAs={[siteMetadata.telegram, siteMetadata.twitter]}
         />
       </LayoutWrapper>
     </ThemeProvider>
