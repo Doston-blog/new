@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/api/views/[slug]": "pages/api/views/[slug].js",
+  "/api/spotify/top-track": "pages/api/spotify/top-track.js",
+  "/api/spotify/now-playing": "pages/api/spotify/now-playing.js",
+  "/": "pages/index.js"
+}

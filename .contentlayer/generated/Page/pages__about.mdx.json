@@ -1,0 +1,24 @@
+{
+  "title": "About",
+  "description": "",
+  "body": {
+    "raw": "\r\n# About",
+    "code": "var Component=(()=>{var x=Object.create;var a=Object.defineProperty;var h=Object.getOwnPropertyDescriptor;var l=Object.getOwnPropertyNames;var d=Object.getPrototypeOf,j=Object.prototype.hasOwnProperty;var p=(n,t)=>()=>(t||n((t={exports:{}}).exports,t),t.exports),b=(n,t)=>{for(var e in t)a(n,e,{get:t[e],enumerable:!0})},r=(n,t,e,c)=>{if(t&&typeof t==\"object\"||typeof t==\"function\")for(let s of l(t))!j.call(n,s)&&s!==e&&a(n,s,{get:()=>t[s],enumerable:!(c=h(t,s))||c.enumerable});return n};var f=(n,t,e)=>(e=n!=null?x(d(n)):{},r(t||!n||!n.__esModule?a(e,\"default\",{value:n,enumerable:!0}):e,n)),_=n=>r(a({},\"__esModule\",{value:!0}),n);var u=p((N,i)=>{i.exports=_jsx_runtime});var C={};b(C,{default:()=>A,frontmatter:()=>M});var o=f(u()),M={title:\"About\",description:\"\"};function m(n){let t=Object.assign({h1:\"h1\",a:\"a\",span:\"span\"},n.components);return(0,o.jsxs)(t.h1,{id:\"about\",children:[(0,o.jsx)(t.a,{className:\"anchor\",href:\"#about\",children:(0,o.jsx)(t.span,{className:\"icon icon-link\"})}),\"About\"]})}function g(n={}){let{wrapper:t}=n.components||{};return t?(0,o.jsx)(t,Object.assign({},n,{children:(0,o.jsx)(m,n)})):m(n)}var A=g;return _(C);})();\n;return Component;"
+  },
+  "_id": "pages/about.mdx",
+  "_raw": {
+    "sourceFilePath": "pages/about.mdx",
+    "sourceFileName": "about.mdx",
+    "sourceFileDir": "pages",
+    "contentType": "mdx",
+    "flattenedPath": "pages/about"
+  },
+  "type": "Page",
+  "readingTime": {
+    "text": "1 min read",
+    "minutes": 0.01,
+    "time": 600,
+    "words": 2
+  },
+  "slug": "about"
+}

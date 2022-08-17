@@ -1,0 +1,334 @@
+---
+title: 'Git bilan ishlashda asosiy eslatmalar'
+date: '2022-08-16'
+tags: ['git', 'git-notes', 'git-alias', 'git-workflows']
+draft: false
+summary: 'Dasturchilarni git bilan ishlashda vaqtini tejash uchun maqola'
+images: ['/static/images/git-notes.jpg']
+authors: ['default']
+---
+
+
+
+![git-notes](/static/images/git-notes.jpg)
+
+Ushbu post men kabi 'git' orqali 'command-line' bilan ishlashni afzal ko'radigan dasturchilar uchun yozilgan. Agar siz GUI-ni yaxshi ko'rsangiz, umid qilamanki, siz hali ham bu yerda foydali narsalarni topishingiz mumkin.
+
+## Git alias
+
+> Git aliases are a powerful workflow tool that create shortcuts to frequently used Git commands
+
+
+
+`git alias` bu sizga uzun bo'lgan buyruqlarni qisqartirib, o'zizga moslab yozish uchun yordam beradi(qisqacha o'zingiz uchun _shortcut_). 
+
+#### Syntax
+
+```bash
+$ git config --global alias.<shortcut> <original-command>
+```
+
+ Aliasdan foydalanganda `--global` buyrug'ini qo'shib qoyishni unutmang aks holda boshqa proyektlarizda ishlamay qolishi mumkin
+
+
+ **Git status**
+
+Commit qilishdan oldin o'zgarishlarni tekshirib oling:
+
+```bash
+$ git config --global alias.st status
+```
+
+```bash
+# Endi `git status` o'rniga `git st` dan foydalanishingiz mumkin
+$ git st
+On branch v2
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+       
+        modified:   css/tailwind.css
+        modified:   data/blog/git-notes.mdx
+
+```
+
+> Tip: `git st` alias qilgan buyrug'imizga `--short` buyrug'ini qo'shib qoysak git status qisqartirilgan holda ya'ni terminalda ortiqcha narsalarni chiqarmay ko'rsatadi. Aliasimizga git status shortni qo'wib qoyamiz.
+```bash
+$ git config --global alias.s 'status --short'
+```
+
+```bash
+# endi `git st`  buyrug'i o'rniga `git s` buyrug'idan foydalanamiz
+$ git s
+  M components/Image.js
+  M data/blog/git-notes.mdx
+  ?? public/static/images/misol.jpg
+```
+
+Ancha tozaroq ma'lumotlar chiqdi, shundaymi? <br />
+Git status short haqida yana  koproq shu [link](https://stackoverflow.com/questions/51210915/understanding-the-output-of-git-status-with-the-short-flag) orqali bilib olishingiz mumkin.
+
+ **Git commit**
+
+```bash
+$ git config --global alias.cm 'commit -m'
+```
+
+Commit qilib gitga o'zgarishlarini qo'shib olamiz
+
+```bash
+$ git cm "Initial commit"
+```
+
+> Tip: Agar o'zgarishlar faqat mavjud fayllarga tegishli bo'lsa  `--all` yoki `-a` bayrog'idan (ingliz tilida flag deb yuritiladi) foydalaning. 
+
+```bash
+$ git config --global alias.cam 'commit -am'
+```
+
+```bash
+# Hozir bu yerda ikkita git buyrug'ini ishlatamiz
+$ git add style.css # `style.css` is already existed, not new file!
+$ git cm "Update style"
+
+# BU yerda shu ishni bitta buyruq bilan qilamiz
+$ git cam "Update style"
+```
+
+Ko'proq ma'lumotni shu [link](https://stackoverflow.com/questions/3541647/git-add-vs-git-commit-a)dan olishingiz mumkin.
+
+**Git stash**
+
+> Stash the changes in a dirty working directory away
+
+Git stash o'zgarishlarni githubni alohida joyida saqlaydi.
+
+```bash
+# Alias yaratish shartmas ozi oson xotiramizda qoladi
+$ git stash
+```
+
+Alohida folderda turgan narsani qaytarib olib avvalgi folderda kodlarimiz qolmasligi uchun ushbu buyruqdan foydalanamiz:
+
+```bash
+$ git stash pop
+```
+
+Bu uchun alohida alias yaratib olamiz:
+
+```bash
+$ git config --global alias.sp 'stash pop'
+
+# Hozir
+$ git sp
+
+# Oldin
+$ git stash pop
+```
+Git stash haqida ko'proq ma'lumotni ushbu [link](https://www.youtube.com/watch?v=23yEmNAxfcQ) orqali bilib olishingiz mumkin.
+
+**Git pull/push**
+
+ [`pull rebase`](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) va `force push` buyruqlari bizga doim toza commit qilishga yordam berishadi!
+
+- `pull rebase`
+
+  ```bash
+  $ git config --global alias.prb 'pull origin --rebase'
+  ```
+
+  ```bash
+  # Hozir
+  $ git pull origin --rebase main
+
+  # Keyin
+  $ git prb main
+  # Yoki
+  $ git prb master
+  ```
+
+reabase yangi github foydalanuvchilari uchun maslahat berilmaydigan buyruqlardan biri
+- Xosh, rebasedan song muammo chiqsachi?
+
+  `git diff` buyrug'i bilan muammolarni filtirlaymiz bu uchun ham alias yasab olamiz:
+
+  ```bash
+  $ git config --global alias.cf 'diff --name-only --diff-filter=U'
+  ```
+
+  ```bash
+  # Barcha muammolarni ko'rish
+  $ git cf
+
+  # Barcha muammolarni bartaraf etganimizdan so'ng
+  $ git add .
+
+  # rebaseni tugatamiz
+  $ git rebase --continue
+  ```
+
+- `force push`
+
+rebasedan keyin aksariyat holda ```push``` ishlamaydi bu holda repoga projectni _majburan_ push qilishimiz uchun:
+
+  ```bash
+  $ git config --global alias.pf 'push --force-with-lease'
+
+  # rebasingdan so'ng
+  $ git pf
+  ```
+
+  [Nima uchun  `--force` buyrug'i emas?](https://git-scm.com/docs/git-push#Documentation/git-push.txt---force-with-leaseltrefnamegt)
+
+  **TL;DR**
+
+  > Doim ham  `--force` buyrug'idan foydalanish xato hisoblanadi agar 2 ta dasturchi bitta projectda ishlasa bu buyruq katta muammolar keltirib chiqarishi mumkin ya'ni repodagi o'zgarishlarga qaramay majburan push qiladi, bu holda bizga repoda o'zgarishlar bo'lmagan vaqtda push qiladigan buyruq `--force-with-lease` yordamga keladi.
+
+ **Git checkout**
+
+```bash
+$ git config --global alias.co 'checkout'
+
+# Keyin
+$ git co main
+```
+
+Yangi branch yaratamiz:
+
+```bash
+$ git config --global alias.cob 'checkout -b'
+
+# Keyin
+$ git cob feature-x
+```
+
+> Tip: oldingi branchga checkout qilish uchun `git co -` dan foydalanamiz
+
+Masalan:
+
+```bash {3}
+$ git branch
+dev
+* branch
+main
+# hozirgi branch bu `branch`
+
+# `dev` ga checkout qilamiz
+$ git co dev
+
+
+#`branch` dan foydalanish uchun qaytamiz
+$ git co -
+# O'rniga
+$ git checkout branch
+```
+
+**Git diff**
+
+```bash
+$ git config --global alias.d 'diff'
+
+# Masalan
+$ git d style.css
+```
+
+#### Eslab qoling yoki yozib oling
+
+Barcha qilgan Aliasingizni `~/.gitconfig` faylda (Macos) da ko'rishingiz yoki tahrirlashingiz mumkin.
+
+```bash
+$ vim ~/.gitconfig
+```
+
+```bash
+# Config filedan aliaslaringizni toping
+[alias]
+  s = status --short
+  st = status
+  cm = commit -m
+  # ...
+```
+
+Bu ishni qilish uchun sizdan talab qilinadigan narsa [`vim`](https://github.com/vim/vim)ni bilishingiz  <br />
+Ushbu mem holatiga tushib qolishdan o'zingizni asrang. 
+
+![vim-meme](/static/images/vim-meme-exit.png)
+
+## Git workflow
+
+
+
+```bash {5,14,26,36} showLineNumbers
+# Stash qiling
+$ git stash
+
+# o'zgarishlarni yangilab oling
+$ git prb main
+
+# stashdagi o'zgarishlarni yuklab oling
+$ git sp
+
+
+# git statusni tekshiring
+$ git s
+
+# o'zgargan fayllarni tekshirib oling
+$ git d # or git d file.ext
+
+
+$ git add .
+
+# Commit
+$ git cm "commit message"
+
+# yoki
+$ git cam "commit message"
+
+# o'zgarishlarni yana yangilang
+$ git prb main
+
+# Agar muammolar bolsa rebase qiling
+$ git add file.ext
+$ git rebase --continue
+
+# Force push
+$ git pf
+
+```
+
+Bu Open Source dasturchi hayoti 
+
+## `.gitignore` va `.gitkeep`
+
+ **.gitignore**
+
+[Foydalanishga tayyor shablonlar](https://github.com/github/gitignore)
+
+Tip: Fayl va papkalarni yoz
+
+```bash {5}
+# hamma fayl va papkalarni ignore qilamiz
+homework/*
+
+# Faqat shu faylni push qilish uchun olib qolamiz
+!homework/file-to-keep
+```
+
+ **.gitkeep**
+
+Bo'sh papkani repoga qanday yuklash mumkin?
+
+> .gitkeep faylini yarating, uni bo'sh papkaga  qo'ying, endi siz buni push qilsangiz bo'ladi!
+
+**.gitkeep o'rniga boshqa fayl ham qoyishingiz mumkin bu yerda hiyla qilyapmiz repoga projectni push qilganda bo'sh papkalar tashlab ketiladi biz shunchaki ichiga oddiy fayl yuklayapmiz.
+
+
+Happy sharing 
+
+## Ma'lumotnomalar
+
+- [Git Alias Overview](https://www.atlassian.com/git/tutorials/git-alias)
+
+- [Merging vs. Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
+
+- [Git docs: --force-with-lease](https://git-scm.com/docs/git-push#Documentation/git-push.txt---force-with-leaseltrefnamegt)
